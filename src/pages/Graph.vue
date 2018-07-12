@@ -10,7 +10,7 @@
             <p class="category">Created using Roboto Font Family</p>
           </md-card-header>
           <md-card-content id="invokeGraph">
-            <md-button class="md-primary" @click="onLoad()">Bas bana</md-button>
+
           </md-card-content>
         </md-card>
       </div>
@@ -21,6 +21,7 @@
 
 <script>
   import Viva from "../../node_modules/vivagraphjs/dist/vivagraph.js";
+  import json from "../sample.json";
    export default{
     props: {
       dataBackgroundColor: {
@@ -30,11 +31,17 @@
     },
       methods: {
         onLoad() {
+
           var graph = Viva.Graph.graph();
-          graph.addLink(1, 2, "hi!");
-          graph.addLink(2,3);
-          graph.addLink(1,3);
-          graph.addNode(5);
+
+          for(let i = 0; i<json.vertices.length; i++) {
+              graph.addNode(json.vertices[i]._id);
+
+          }
+          for(let i = 0; i<json.edges.length; i++) {
+            graph.addLink(json.edges[i].source,json.edges[i].target)
+          }
+
 
           var graphics = Viva.Graph.View.webglGraphics();
 
