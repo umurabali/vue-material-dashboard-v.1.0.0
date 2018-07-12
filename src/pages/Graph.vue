@@ -2,14 +2,13 @@
 
   <div class="content">
     <div class="md-layout">
-      <div class="md-layout-item">
+      <div id="md-layout-item">
         <md-card>
-
           <md-card-header data-background-color="green">
-            <h4 class="title">Material Dashboard Heading</h4>
-            <p class="category">Created using Roboto Font Family</p>
+            <h4 class="title">Graph of finance data</h4>
+            <p class="category">UNDER DEVELOPMENT!!!</p>
           </md-card-header>
-          <md-card-content id="invokeGraph">
+          <md-card-content>
 
           </md-card-content>
         </md-card>
@@ -20,8 +19,9 @@
 
 
 <script>
-  import Viva from "../../node_modules/vivagraphjs/dist/vivagraph.js";
+  import ForceGraph from 'force-graph';
   import json from "../sample.json";
+  console.log(json);
    export default{
     props: {
       dataBackgroundColor: {
@@ -30,55 +30,29 @@
       }
     },
       methods: {
-        onLoad() {
 
-          var graph = Viva.Graph.graph();
-
-          
-          for(let i = 0; i<json.vertices.length; i++) {
-            console.log(json.vertices[i].type);
-            if(json.vertices[i].type === "banka") {
-              graph.addNode(json.vertices[i]._id);
-            }
-            else if(json.vertices[i].type === "kisi") {
-              graph.addNode(json.vertices[i]._id);
-            }
-            else if(json.vertices[i].type === "hesap") {
-              graph.addNode(json.vertices[i]._id);
-            }
-          }
-
-          for(let i = 0; i < json.edges.length; i++) {
-            if(json.edges[i].type === "hesabi"){
-              graph.addLink(json.edges[i].source, json.edges[i].target);
-            }
-            else if(json.edges[i].type === "aktardi") {
-
-              graph.addLink(json.edges[i].source, json.edges[i].target);
-            }
-          }
+      onLoad(){
+        let graph = ForceGraph();
+        graph(document.getElementById("md-layout-item"))
+          .graphData(json)
+          .nodeId('id')
+          .nodeAutoColorBy('type')
+          .linkSource('source')
+          .linkTarget('target');
+      }
+    },
+      mounted() {
+        console.log("DONE");
+        this.onLoad();
+     }
 
 
+   }
 
-          var graphics = Viva.Graph.View.webglGraphics();
-
-          var renderer = Viva.Graph.View.renderer(graph,
-            {
-              graphics : graphics,
-              container: document.getElementById('invokeGraph')
-            });
-          renderer.run();
-  }
-      },
-    mounted() {
-      this.onLoad();
-    }
-
-    }
 </script>
 
 <style type="text/css">
-       #invokeGraph{
-         height: 500px;
-       }
+    md-card-content {
+      margin: auto;
+    }
 </style>
