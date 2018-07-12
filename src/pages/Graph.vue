@@ -2,21 +2,12 @@
 
   <div class="content">
     <div class="md-layout">
-      <div id="md-layout-item">
-        <md-card>
-          <md-card-header data-background-color="green">
-            <h4 class="title">Graph of finance data</h4>
-            <p class="category">UNDER DEVELOPMENT!!!</p>
-          </md-card-header>
-          <md-card-content>
-
-          </md-card-content>
-        </md-card>
+      <div class="md-layout-item">
+        <div id="graphContainer"></div>
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
   import ForceGraph from 'force-graph';
@@ -32,27 +23,31 @@
       methods: {
 
       onLoad(){
+        let highlightNodes = [];
+        let highlightLink = null;
+        const elem = document.getElementById('graphContainer');
         let graph = ForceGraph();
-        graph(document.getElementById("md-layout-item"))
+        graph(elem)
           .graphData(json)
           .nodeId('id')
           .nodeAutoColorBy('type')
           .linkSource('source')
-          .linkTarget('target');
+          .linkTarget('target')
+          .linkDirectionalParticles(2)
+          .onNodeHover(node => {
+          highlightNodes = node ? [node] : [];
+          elem.style.cursor = node ? '-webkit-grab' : null;
+        })
+          .onLinkHover(link => {
+            highlightLink = link;
+            highlightNodes = link ? [link.source, link.target] : [];
+          });
       }
     },
       mounted() {
         console.log("DONE");
         this.onLoad();
      }
-
-
    }
 
 </script>
-
-<style type="text/css">
-    md-card-content {
-      margin: auto;
-    }
-</style>
