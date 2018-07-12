@@ -4,7 +4,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
 import axios from 'axios'
-
 // router setup
 import routes from './routes/routes'
 
