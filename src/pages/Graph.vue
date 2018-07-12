@@ -34,13 +34,30 @@
 
           var graph = Viva.Graph.graph();
 
+          
           for(let i = 0; i<json.vertices.length; i++) {
+            console.log(json.vertices[i].type);
+            if(json.vertices[i].type === "banka") {
               graph.addNode(json.vertices[i]._id);
+            }
+            else if(json.vertices[i].type === "kisi") {
+              graph.addNode(json.vertices[i]._id);
+            }
+            else if(json.vertices[i].type === "hesap") {
+              graph.addNode(json.vertices[i]._id);
+            }
+          }
 
+          for(let i = 0; i < json.edges.length; i++) {
+            if(json.edges[i].type === "hesabi"){
+              graph.addLink(json.edges[i].source, json.edges[i].target);
+            }
+            else if(json.edges[i].type === "aktardi") {
+
+              graph.addLink(json.edges[i].source, json.edges[i].target);
+            }
           }
-          for(let i = 0; i<json.edges.length; i++) {
-            graph.addLink(json.edges[i].source,json.edges[i].target)
-          }
+
 
 
           var graphics = Viva.Graph.View.webglGraphics();
